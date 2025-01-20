@@ -1,0 +1,93 @@
+CREATE DATABASE Sale_of_air_tickets;
+USE Sale_of_air_tickets;
+
+CREATE TABLE Passengers(
+Passenger_ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+Surname VARCHAR(100) NOT NULL,
+Name VARCHAR(50) NOT NULL,
+Patronymic VARCHAR(100) NOT NULL,
+Date_Of_Birth DATE NOT NULL,
+Gender VARCHAR(20) NOT NULL,
+Phone_Number BIGINT NOT NULL,
+Email VARCHAR(50) NOT NULL);
+
+CREATE TABLE Posts(
+Post_ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+Post_Name VARCHAR(80) NOT NULL);
+
+CREATE TABLE Employees(
+Employee_ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+Post_ID INT NOT NULL, 
+Surname VARCHAR(100) NOT NULL,
+Name VARCHAR(50) NOT NULL,
+Patronymic VARCHAR(100) NOT NULL,
+Date_Of_Birth DATE NOT NULL,
+Phone_Number BIGINT NOT NULL,
+Email VARCHAR(50) NOT NULL,
+FOREIGN KEY (Post_ID) REFERENCES Posts (Post_ID)
+);
+
+CREATE TABLE Airports(
+Airport_ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+Airport_Name VARCHAR(100) NOT NULL,
+Country VARCHAR(50) NOT NULL,
+City VARCHAR(60) NOT NULL,
+Legal_Address VARCHAR(300) NOT NULL,
+Phone BIGINT NOT NULL
+);
+
+CREATE TABLE Airplanes(
+Airplane_ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+Airline_ID INT NOT NULL,
+Airplane_Name VARCHAR (100) NOT NULL,
+Number_of_Seats INT NOT NULL,
+Max_take_off_weught INT NOT NULL,
+Cruising_Speed INT NOT NULL,
+Max_flight_altitube INT NOT NULL,
+Max_flight_range INT NOT NULL,
+FOREIGN KEY (Airline_ID) REFERENCES Airlines (Airline_ID)
+);
+
+CREATE TABLE Airlines(
+Airline_ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+Airline_Name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Flights(
+Flight_ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+Airline_ID INT NOT NULL,
+Airplane_ID INT NOT NULL,
+Airport_ID INT NOT NULL,
+Departure_Airport VARCHAR(60) NOT NULL,
+Departure_Country VARCHAR(50) NOT NULL,
+Departure_Сity VARCHAR(60) NOT NULL,
+Departure_Date DATE NOT NULL,
+Departure_Time TIME NOT NULL,
+Arrival_Airoport VARCHAR(100) NOT NULL,
+Arrival_Country VARCHAR(50) NOT NULL,
+Arrival_City VARCHAR(60) NOT NULL,
+Arrival_Date DATE NOT NULL,
+Arrival_Time TIME NOT NULL,
+Flight_Time TIME NOT NULL,
+Total_Seats INT NOT NULL,
+Available_Seats INT NOT NULL,
+FOREIGN KEY (Airline_ID) REFERENCES Airlines (Airline_ID),
+FOREIGN KEY (Airplane_ID) REFERENCES Airplanes (Airplane_ID),
+FOREIGN KEY (Airport_ID) REFERENCES Airports (Airport_ID)
+);
+
+CREATE TABLE Tickets(
+Ticket_ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+Passenger_ID INT NOT NULL,
+Flight_ID INT NOT NULL,
+Employee_ID INT NOT NULL,
+Place VARCHAR(5) NOT NULL,
+Purchase_Date DATE NOT NULL,
+Price DECIMAL(20,2) NOT NULL,
+Status VARCHAR(50) NOT NULL,
+FOREIGN KEY (Passenger_ID) REFERENCES Passengers (Passenger_ID),
+FOREIGN KEY (Flight_ID) REFERENCES Flights (Flight_ID),
+FOREIGN KEY (Employee_ID) REFERENCES Employees (Employee_ID) 
+);
+
+
